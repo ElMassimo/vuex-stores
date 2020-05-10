@@ -1,17 +1,35 @@
 {
   "name": "vuex-stores",
-  "version": "0.1.0",
-  "private": true,
+  "version": "0.0.1",
+  "description": "Store objects for Vuex, a simple and more fluid API for state-management.",
+  "author": {
+    "name": "Maximo Mussini",
+    "email": "maximomussini@gmail.com",
+    "url": "https://maximomussini.com"
+  },
+  "main": "./src/main.js",
+  "files": [
+    "src/*"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "vue",
+    "vuex",
+    "fluid",
+    "simple",
+    "state-management",
+    "store",
+    "stores"
+  ],
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
+    "build-bundle": "vue-cli-service build --target lib --name vuex-stores ./src/main.js",
     "test:unit": "vue-cli-service test:unit",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
-    "core-js": "^3.6.4",
-    "vue": "^2.6.11",
-    "vuex": "^3.1.3"
+    "vuex": ">2.0"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.3.0",
@@ -29,6 +47,7 @@
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-standard": "^4.0.0",
     "eslint-plugin-vue": "^6.2.2",
+    "vue": "^2.6.11",
     "vue-template-compiler": "^2.6.11"
   }
 }
