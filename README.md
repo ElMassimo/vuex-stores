@@ -37,6 +37,8 @@ Vuex store, returning a _Store Object_ which can be used to easily access state,
 getters, and actions, abstracting away the namespace for that module.
 
 ```js
+import { registerAndGetStore } from 'vuex-stores'
+
 const WindowStore = registerAndGetStore(vuexStore, { namespace, state, getters, mutations, actions })
 ````
 
@@ -173,7 +175,7 @@ And creating one file per store module, exporting the store object:
 // @stores/ModalStore.js
 
 import store from '@app/store'
-import { registerAndGetStore } from '@helpers/StoreHelper'
+import { registerAndGetStore } from 'vuex-stores'
 
 let newModalIds = 0
 
