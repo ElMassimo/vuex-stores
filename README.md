@@ -183,6 +183,7 @@ And creating [one file](https://github.com/ElMassimo/vuex-stores/blob/master/tes
 import VuexStore from '@app/store'
 import { registerAndGetStore } from 'vuex-stores'
 
+const namespace = 'modals'
 const state = () => ({ ... })
 const getters = { ... }
 const mutations = { ... }
@@ -191,7 +192,7 @@ const actions = { ... }
 export default registerAndGetStore(VuexStore, { namespace, state, getters, mutations, actions })
 ```
 
-This makes it very convenient to import the store object from a component:
+This makes it very convenient to import the [store object](https://github.com/ElMassimo/vuex-stores/blob/master/tests/stores/ModalsStore.js) from a component:
 
 ```vue
 // @components/ModalManager.vue
@@ -201,11 +202,7 @@ import ModalsStore from '@stores/ModalsStore'
 
 export default {
   name: 'ModalManager',
-  computed: {
-    modals () {
-      return ModalsStore.modals
-    },
-  },
+  computed: ModalsStore.mapState('modals'),
   beforeMount () {
     // Hide modals when visiting a different route.
     if (this.$router) this.$router.afterEach(ModalsStore.closeAllModals)
