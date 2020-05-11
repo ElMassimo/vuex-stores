@@ -1,6 +1,6 @@
 {
   "name": "vuex-stores",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Store objects for Vuex, a simple and more fluid API for state-management.",
   "author": {
     "name": "Maximo Mussini",
@@ -25,7 +25,7 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "build-bundle": "vue-cli-service build --target lib --name vuex-stores ./src/main.js",
-    "test:unit": "vue-cli-service test:unit",
+    "test:unit": "vue-cli-service test:unit --include './tests/unit/setup.js'",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {

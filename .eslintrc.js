@@ -4,9 +4,16 @@ module.exports = {
     node: true
   },
   extends: [
-    'plugin:vue/essential',
+    'plugin:vue/recommended',
     '@vue/standard'
   ],
+  globals: {
+    expect: true,
+    mount: true,
+    newVuexStore: true,
+    shallowMount: true,
+    vuexStore: true
+  },
   parserOptions: {
     parser: 'babel-eslint'
   },

@@ -49,9 +49,9 @@ export function getNamespacedHelpers (moduleNamespace) {
 }
 
 // Public: Registers the module in the Vuex store, and returns a set of helpers.
-export function registerAndGetStore (vuexStore, moduleNamespace, moduleConfig) {
-  vuexStore.registerModule(moduleNamespace, { namespaced: true, ...moduleConfig })
-  return getStoreHandler(vuexStore, moduleNamespace, moduleConfig)
+export function registerAndGetStore (vuexStore, { namespace, ...moduleConfig }) {
+  vuexStore.registerModule(namespace, { namespaced: true, ...moduleConfig })
+  return getStoreHandler(vuexStore, namespace, moduleConfig)
 }
 
 // Internal: Returns an object that can delegate properties and methods to Vuex,
