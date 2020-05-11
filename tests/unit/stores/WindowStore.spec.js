@@ -7,6 +7,10 @@ describe('WindowStore', () => {
     store = registerAndGetStore(newVuexStore(), { namespace, state, getters, mutations, actions })
   })
 
+  it('can access namespace as property', () => {
+    expect(store.moduleNamespace).to.eq('window')
+  })
+
   it('can access state as properties', () => {
     expect(store.isFullscreen).to.eq(false)
     expect(store.windowHeight).to.eq(window.innerHeight)

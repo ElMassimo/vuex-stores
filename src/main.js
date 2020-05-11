@@ -49,18 +49,24 @@ export function getNamespacedHelpers (moduleNamespace) {
 }
 
 // Public: Registers the module in the Vuex store, and returns a set of helpers.
-export function registerAndGetStore (vuexStore, { namespace, ...moduleConfig }) {
-  vuexStore.registerModule(namespace, { namespaced: true, ...moduleConfig })
-  return getStoreHandler(vuexStore, namespace, moduleConfig)
+export function registerAndGetStore (vuexStore, moduleConfig, registrationOptions) {
+  const storeObject = buildStoreObject(vuexStore, moduleConfig)
+  storeObject.registerModule(registrationOptions)
+  return storeObject
 }
 
-// Internal: Returns an object that can delegate properties and methods to Vuex,
+// Public: Returns an object that can delegate properties and methods to Vuex,
 // allowing to directly access actions, getters, and state as properties.
 //
 // NOTE: If names overlap, actions have priority, then getters, then state.
-function getStoreHandler (vuexStore, moduleNamespace, moduleConfig) {
+export function buildStoreObject (vuexStore, { namespace, ...moduleConfig }) {
+  const moduleNamespace = namespace
+
   // mapState, mapGetters, and mapActions are available in the store object.
   const storeObject = getNamespacedHelpers(moduleNamespace)
+
+  // Expose the namespace in the store object.
+  storeObject.moduleNamespace = moduleNamespace
 
   // Add a property each state key allowing to get the current value.
   const stateObject = typeof moduleConfig.state === 'function' ? moduleConfig.state() : moduleConfig.state
@@ -92,6 +98,14 @@ function getStoreHandler (vuexStore, moduleNamespace, moduleConfig) {
 
   // Allow to watch store changes using a String syntax or a Function.
   storeObject.watch = enhancedWatch(vuexStore)
+
+  // Allows to register this store module.
+  storeObject.registerModule = registrationOptions =>
+    vuexStore.registerModule(moduleNamespace, { namespaced: true, ...moduleConfig }, registrationOptions)
+
+  // Allows to unregister this store module.
+  storeObject.unregisterModule = () =>
+    vuexStore.hasModule(moduleNamespace) && vuexStore.unregisterModule(moduleNamespace)
 
   return storeObject
 }

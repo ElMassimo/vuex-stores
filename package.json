@@ -1,6 +1,6 @@
 {
   "name": "vuex-stores",
-  "version": "0.0.2",
+  "version": "1.0.0",
   "description": "Store objects for Vuex, a simple and more fluid API for state-management.",
   "author": {
     "name": "Maximo Mussini",
