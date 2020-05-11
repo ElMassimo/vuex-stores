@@ -58,6 +58,10 @@ const state = {
 WindowStore.isFullscreen // false
 WindowStore.windowHeight // 768
 WindowStore.windowWidth // 1024
+
+// instead of
+
+vuexStore.state.window.windowWidth // ❌
 ```
 
 ### [Getters](https://vuex.vuejs.org/guide/getters.html) ✋
@@ -74,6 +78,10 @@ const getters = {
 // A property is available for every getter:
 
 WindowStore.windowSize // 1024 * 768 = 786,432
+
+// instead of
+
+vuexStore.getters['window/windowSize'] // ❌
 ```
 
 ### [Actions](https://vuex.vuejs.org/guide/actions.html) ⚡️
@@ -93,10 +101,10 @@ export const actions = {
 // A method is available for every action:
 WindowStore.setFullscreen(true)
 WindowStore.updateWindowSize()
-
-vuexStore.dispatch('window/updateWindowSize', { width: 1024, height: 768 })
-// becomes the more natural
 WindowStore.updateWindowSize({ width: 1024, height: 768 })
+
+// instead of
+vuexStore.dispatch('window/updateWindowSize', { width: 1024, height: 768 }) // ❌
 ```
 
 By convention, mutations should be an internal detail, so they are not exposed.
@@ -132,7 +140,7 @@ explicit, doesn't require [manual boilerplate](https://vuex.vuejs.org/guide/muta
 
 ### [`watch`](https://vuex.vuejs.org/api/#watch) 👁
 
-Makes it convenient to be reactive to a value in a store outside of components:
+Makes it convenient to watch a store value outside the component lifecycle:
 
 ```js
 WindowStore.watch('windowSize', windowSize => console.log('onWindowSizeChange', windowSize))
@@ -162,69 +170,25 @@ import Vuex from 'vuex'
 
 Vue.use(Vuex)
 
-const store = new Vuex.Store({
+export default new Vuex.Store({
   strict: process.env.NODE_ENV !== 'production'
 })
-
-export default store
 ```
 
-And creating one file per store module, exporting the store object:
+And creating [one file](https://github.com/ElMassimo/vuex-stores/blob/master/tests/stores/ModalsStore.js) per store module, [exporting the store object](https://github.com/ElMassimo/vuex-stores/blob/master/tests/stores/WindowStore.js#L45).
 
 ```js
 // @stores/ModalStore.js
 
-import store from '@app/store'
+import VuexStore from '@app/store'
 import { registerAndGetStore } from 'vuex-stores'
 
-let newModalIds = 0
+const state = () => ({ ... })
+const getters = { ... }
+const mutations = { ... }
+const actions = { ... }
 
-// The namespace for this store module.
-const namespace = 'modals'
-
-const state = () => ({
-  // Modals that are currently being displayed.
-  modals: [],
-})
-
-const getters = {
-  // Checks if a modal with the specified id is currently open.
-  isModalOpen (state) {
-    return id => state.modals.some(modal => modal.id === id)
-  },
-}
-
-const mutations = {
-  ADD_MODAL (state, modal) {
-    state.modals.push(modal)
-  },
-  REMOVE_MODAL (state, { id }) {
-    removeBy(state.modals, modal => modal.id === id)
-  },
-  CLOSE_ALL_MODALS (state) {
-    state.modals = []
-  },
-}
-
-const actions = {
-  // Adds a modal to the current window.
-  addModal ({ commit, getters }, { component, attrs, listeners, id = `modal-${newModalIds++}` }) {
-    if (!getters.isModalOpen(id)) {
-      commit('ADD_MODAL', { component, attrs, listeners, id })
-    }
-    return id
-  },
-  // Removes a modal from the current window.
-  removeModal ({ commit, getters }, { id }) {
-    if (getters.isModalOpen(id)) commit('REMOVE_MODAL', { id })
-  },
-  // Closes all modals.
-  closeAllModals ({ commit, state }) {
-    if (state.modals.length > 0) commit('CLOSE_ALL_MODALS')
-  },
-}
-
-export default registerAndGetStore(store, { namespace, state, getters, mutations, actions })
+export default registerAndGetStore(VuexStore, { namespace, state, getters, mutations, actions })
 ```
 
 This makes it very convenient to import the store object from a component:
@@ -259,7 +223,6 @@ export default {
     <component
       :is="modal.component"
       v-for="modal in modals"
-      :id="modal.id"
       :key="modal.id"
       v-bind="modal.attrs"
       v-on="modal.listeners"
