@@ -18,6 +18,8 @@ cumbersome, and is only suitable for components.
 Store objects address these issues by allowing access to state and getters as
 properties, and dispatching actions easily by using plain method calls.
 
+Read more about the benefits in the [blog announcement](http://maximomussini.com/posts/vuex-stores).
+
 ## Installation ⚙️
 
 ```
@@ -229,8 +231,6 @@ export default {
 </template>
 ```
 
-The pattern described above is just one of many possibilities.
-
 Feel free to check the [tests](https://github.com/ElMassimo/vuex-stores/blob/master/tests/components/WindowDisplay.vue)
 for additional usage examples, and setup options.
 
@@ -238,37 +238,40 @@ for additional usage examples, and setup options.
 
 What happens if we need more than one instance of a store? Instead of exporting
 a single store object, we can export a function that dynamically registers a new
-store object on each invocation.
-
-For example:
+store object on each invocation. For example:
 
 ```js
-// @stores/ModalStoreFactory
+// @stores/FormStoreFactory
+let formId = 0
 
-import { uniqueId } from 'lodash'
-
-export default (id = uniqueId(namespace)) =>
+export default (id = `form-${formId++}`) =>
   registerAndGetStore(store, { namespace: id, state, getters, mutations, actions })
 ```
 
-Nothing prevents you from creating a `Map` of store objects, and dynamically
-unregistering them once they are no longer necessary to free up some memory.
+And then import the factory:
+
+```js
+import FormStoreFactory from '@stores/FormStoreFactory'
+
+// A new module is registered with a dynamic namespace.
+const FormStore = FormStoreFactory()
+```
+
+These dynamic store objects can be passed to child components using `provide` and
+`inject`, or directly as props, and provide all the advantages from Vuex, such
+as a well defined data-schema for the state, and having the history of changes
+available in the Vue devtools, making it very convenient for complex hierarchies.
+
+You can call `registerModule` and `unregisterModule` on the store object to
+manage the lifecycle, unregistering them once they are no longer necessary to
+free up some memory.
+
+### Farewell
+
+The patterns described above are just a few of many possibilities.
+
+Nothing prevents you from using a more complex strategy, like [creating a store
+of stores](https://imgflip.com/i/412qhj), which has a `Map` of store objects,
+and uses actions to register and unregister new store objects ♻️
 
 Let me know if you come up with new or creative ways to use it 😃
-
-## Advantages and Benefits
-
-- The text namespace of a [store module](https://vuex.vuejs.org/guide/modules.html) becomes an implementation detail (transparent to the user).
-- Typos in action names fail fast (the method does not exist, instead of being ignored).
-- Dispatching actions is as simple as calling a method, which matches the store
-  definition of an action, and feels very natural.
-- State or getters are properties in the store object and can be easily retrieved.
-- Mapping state, getters, and actions is easier than ever.
-- Dispatching an action from methods in a component doesn't require injecting
-  the helper with `mapActions`.
-
-The result feels very natural, prevents all kind of mistakes, and works nicely
-when used in conjunction with ES6 modules.
-
-Because imports are strict, we get clear errors if we have a typo in the store
-name, so refactoring becomes a lot easier, usually as simple as _search and replace_.
