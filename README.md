@@ -127,7 +127,7 @@ methods: {
 ```
 
 These are mostly helpful when the values are used in the template. Else, we have
-a better option that doesn't require all that boilerplate:
+a better option:
 
 ```js
 methods: {
@@ -138,7 +138,7 @@ methods: {
 ```
 
 An additional benefit is that references to the state and actions are more
-explicit, doesn't require [manual boilerplate](https://vuex.vuejs.org/guide/mutations.html#using-constants-for-mutation-types), making the code easier to understand and refactor 😀
+explicit, and don't require [manual boilerplate](https://vuex.vuejs.org/guide/mutations.html#using-constants-for-mutation-types), making the code easier to understand and refactor 😀
 
 ### [`watch`](https://vuex.vuejs.org/api/#watch) 👁
 
