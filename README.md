@@ -63,7 +63,7 @@ WindowStore.windowWidth // 1024
 
 // instead of
 
-vuexStore.state.window.windowWidth // ❌
+this.$store.state.window.windowWidth // ❌
 ```
 
 ### [Getters](https://vuex.vuejs.org/guide/getters.html) ✋
@@ -83,7 +83,7 @@ WindowStore.windowSize // 1024 * 768 = 786,432
 
 // instead of
 
-vuexStore.getters['window/windowSize'] // ❌
+this.$store.getters['window/windowSize'] // ❌
 ```
 
 ### [Actions](https://vuex.vuejs.org/guide/actions.html) ⚡️
@@ -106,7 +106,7 @@ WindowStore.updateWindowSize()
 WindowStore.updateWindowSize({ width: 1024, height: 768 })
 
 // instead of
-vuexStore.dispatch('window/updateWindowSize', { width: 1024, height: 768 }) // ❌
+this.$store.dispatch('window/updateWindowSize', { width: 1024, height: 768 }) // ❌
 ```
 
 By convention, mutations should be an internal detail, so they are not exposed.
