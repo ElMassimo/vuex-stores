@@ -1,3 +1,5 @@
+> Prefer [pinia](https://github.com/posva/pinia) if using Vue 3 or `@vue/composition-api` in Vue 2
+
 # Vuex Stores 🗄
 
 [![Gem Version](https://badge.fury.io/js/vuex-stores.svg)](http://badge.fury.io/js/vuex-stores)
@@ -5,7 +7,7 @@
 [![Code Climate](https://codeclimate.com/github/ElMassimo/vuex-stores/badges/gpa.svg)](https://codeclimate.com/github/ElMassimo/vuex-stores)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/ElMassimo/vuex-stores/blob/master/LICENSE.txt)
 
-Store objects for Vuex, a simple and more fluid API for state-management.
+Store objects for Vuex 3, a simple and more fluid API for state-management.
 
 ## Why? 🤔
 
